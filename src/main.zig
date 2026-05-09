@@ -1,3 +1,4 @@
+const halogen = @import("halogen_lang");
 const std = @import("std");
 const Io = std.Io;
 
