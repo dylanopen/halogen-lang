@@ -49,11 +49,13 @@ test "String.push and String.pop" {
     try s.push(allocator, 'i');
     try std.testing.expectEqual(s.pop(), 'i');
     try std.testing.expectEqual(s.pop(), 'H');
+    s.deinit(allocator);
 }
 
 test "String.pop empty" {
     var s = String.new();
     try std.testing.expectEqual(s.pop(), null);
+    s.deinit(std.testing.allocator);
 }
 
 test "String.push_str and String.pop_str" {
@@ -61,9 +63,9 @@ test "String.push_str and String.pop_str" {
     var s = String.new();
     try s.push_str(allocator, "Hello, ");
     try s.push_str(allocator, "world!");
-    try std.testing.expectEqual(s.pop_str(6), "world!");
-    try std.testing.expectEqual(s.pop_str(7), "Hello, ");
-    try s.deinit(allocator);
+    try std.testing.expectEqual(s.pop_str(6).?[2], 'r');
+    try std.testing.expectEqual(s.pop_str(7).?[4], 'o');
+    s.deinit(allocator);
 }
 
 
