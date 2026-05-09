@@ -15,7 +15,7 @@ pub const String = struct {
         try self.chars.append(alloc, addition);
     }
 
-    pub fn push_str(self: *String, alloc: std.mem.Allocator, addition: []const u8) error{OutOfMemory}!void {
+    pub fn pushStr(self: *String, alloc: std.mem.Allocator, addition: []const u8) error{OutOfMemory}!void {
         try self.chars.appendSlice(alloc, addition);
     }
 
@@ -23,7 +23,7 @@ pub const String = struct {
         return self.chars.pop();
     }
 
-    pub fn pop_str(self: *String, count: usize) ?[]u8 {
+    pub fn popStr(self: *String, count: usize) ?[]u8 {
         if (self.chars.items.len < count) {
             return null;
         }
@@ -58,13 +58,13 @@ test "String.pop empty" {
     s.deinit(std.testing.allocator);
 }
 
-test "String.push_str and String.pop_str" {
+test "String.pushStr and String.popStr" {
     const allocator = std.testing.allocator;
     var s = String.new();
-    try s.push_str(allocator, "Hello, ");
-    try s.push_str(allocator, "world!");
-    try std.testing.expectEqual(s.pop_str(6).?[2], 'r');
-    try std.testing.expectEqual(s.pop_str(7).?[4], 'o');
+    try s.pushStr(allocator, "Hello, ");
+    try s.pushStr(allocator, "world!");
+    try std.testing.expectEqual(s.popStr(6).?[2], 'r');
+    try std.testing.expectEqual(s.popStr(7).?[4], 'o');
     s.deinit(allocator);
 }
 
